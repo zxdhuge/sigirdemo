@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>
+			ProductSeeker	
+		</title>
+		<link rel="stylesheet" href="css/style.css" type="text/css" />
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/actions.js"></script>
+		<script type="text/javascript" src="js/jquery.tablednd.0.7.min.js"></script>
+		<!-- <link href="css/douban.css" rel="stylesheet" type="text/css"> -->
+		<link href="css/packed_douban6058825193.css" rel="stylesheet" type="text/css">
+	    <script type="text/javascript" src="js/packed_jquery.min6301986802.js"></script>
+	    <script type="text/javascript" src="js/packed_do4424682597.js" data-cfg-autoload="false"></script>
+		<script type="text/javascript" src="js/packed_douban5051788117.js"></script>
+			    
+
+		<script type="text/javascript" src="js/packed_follow9330952028.js"></script>
+	    <script type="text/javascript" src="js/packed_jquery-ui-sortable4704176938.js"></script>
+		<script type="text/javascript" src="js/packed_mine_dragdrop5347715249.js"></script>
+		<link rel="stylesheet" href="http://img3.douban.com/misc/mixed_static/64fe2999cc178e55.css">
+		<link rel="shortcut icon" href="images/thumbnail2.jpg" type="image/x-icon">
+	    <script type="text/javascript">
+$(document).ready(function() {
+	// Initialise the first table (as before)
+	$("#table").tableDnD();
+	// Make a nice striped effect on the table
+	$("#table tr:even").addClass("alt");
+	// Initialise the second table specifying a dragClass and an onDrop function that will display an alert
+	$("#table").tableDnD({
+	    onDragClass: "myDragClass",
+	    onDrop: function(table, row) {
+            var rows = table.tBodies[0].rows;
+            var debugStr = "Row dropped was "+row.id+". New order: ";
+            for (var i=0; i<rows.length; i++) {
+                debugStr += rows[i].id+" ";
+            }
+	        $("#debugArea").html(debugStr);
+	    },
+		onDragStart: function(table, row) {
+			$("#debugArea").html("Started dragging row "+row.id);
+		}
+	});
+
+	$('#table').tableDnD({
+	    onDrop: function(table, row) {
+	        alert("Result of $.tableDnD.serialise() is "+$.tableDnD.serialize());
+		    $('#AjaxResult').load("server/ajaxTest.php?"+$.tableDnD.serialize());
+        }
+	});
+
+	$('#table').tableDnD(); // no options currently
+
+    $('#table').tableDnD({
+        onDrop: function(table, row) {
+            alert($('#table').tableDnDSerialize());
+        },
+        dragHandle: ".dragHandle"
+    });
+
+    $("#table tr").hover(function() {
+          $(this.cells[0]).addClass('showDragHandle');
+    }, function() {
+          $(this.cells[0]).removeClass('showDragHandle');
+    });
+});
+</script>
+	</head>
+	
+	<body>
+	<div id="wrapper">
+		<div id="header">
+		</div><!--header-->
+		
+		<div id="content">
+			<div class="search">
+				<form action="" method="GET">
+					<table>
+						<tr>
+							<td class="stao">ProductSeeker</td>
+							<td class="stao"><input type="text" name="key" value=""/></td>
+					<!--		<td class="ntao">SetJaccard</td>                                  -->
+					<!--		<td class="ntao"><input type="text" name="jaccard" value=""/></td>-->
+							<td class="subtao"><input type="image" name="submit" src="images/start.jpg"></td>
+						</tr>
+					</table>
+				</form>
+			</div>
+			{% if sets %}
+			<div class="result">
+			{% for set in sets %}
+				<h3 class="title">{{ forloop.counter }}</h3>
+                		<div class="shop" style="display:none;">
+				<table id="table">
+					<tr class="title">
+						<td class="no">ID</td>
+						<td class="image"></td>
+						<td class="ilink">Link</td>
+						<td>Price</td>
+					</tr>
+				{% for item in set %}
+					<div class="sort">
+					<tr class="item-{% cycle '0' '1' %}">
+						<td class="no"><h2>{{ forloop.counter }}</h2></td>
+						<td class="image"><a href="{{ item.url}}" target="_blank"><img class="img" src="{{ item.image }}" /></a></td> 
+						<td class="ilink"><a href="{{ item.url }}" target="_blank">{{ item.title }}</a></td>
+						<td>{{item.price}}</td>
+					</tr>
+					</div>
+				{% endfor %}
+				</table>
+				</div>
+			{% endfor %}
+			</div><!-- result -->
+			{% endif %}
+		</div><!--content-->
+		
+		<div id="footer">
+			<p class="copyright">Copyright @ 2013  . All rights reserved.</p>
+		</div><!--footer-->
+	</div><!--wrapper-->
+	</body>
+</html>

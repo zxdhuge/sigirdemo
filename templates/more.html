@@ -1,0 +1,14 @@
+{% if sets %}					
+{% for item in sets %}
+	{% ifequal color_flag 'a' %}
+	<tr class="item-{% cycle '1' '0' %}">
+	{% else %}
+	<tr class="item-{% cycle '0' '1' %}">
+	{% endifequal %}
+		<td class="no"><h2>{{ forloop.counter|add:set_count }}</h2></td>
+		<td class="image"><a href="{{ item.url}}" target="_blank"><img class="img" src="{{ item.image }}" /></a></td>
+		<td class="ilink"><a href="{{ item.url }}" target="_blank">{{ item.title }}</a></td>
+		<td>{{item.price}}</td>
+	</tr>
+{% endfor %}
+{% endif %}

@@ -1,0 +1,67 @@
+	    <script type="text/javascript" src="/sigirdemo/js/packed_jquery-ui-sortable4704176938.js"></script>
+	    <script type="text/javascript" src="/sigirdemo/js/packed_jquery-ui-sortable4704176938.js"></script>
+        <script type="text/javascript" src="/sigirdemo/js/jquery.js"></script>
+		<script type="text/javascript" src="/sigirdemo/js/jquery.tablednd.0.7.min.js"></script>
+	<script type="text/javascript" src="http://img3.douban.com/js/packed_jquery.min6301986802.js"></script>
+		<!-- <link href="css/douban.css" rel="stylesheet" type="text/css"> -->
+	    <script type="text/javascript" src="/sigirdemo/js/packed_jquery.min6301986802.js"></script>
+	    <script type="text/javascript" src="/sigirdemo/js/packed_do4424682597.js" data-cfg-autoload="false"></script>
+		<script type="text/javascript" src="/sigirdemo/js/packed_douban5051788117.js"></script>
+			    
+
+		<script type="text/javascript" src="/sigirdemo/js/packed_follow9330952028.js"></script>
+		<script type="text/javascript" src="/sigirdemo/js/packed_mine_dragdrop5347715249.js"></script>
+		<link rel="stylesheet" href="http://img3.douban.com/misc/mixed_static/64fe2999cc178e55.css">
+    <script type="text/javascript" src="http://img3.douban.com/js/packed_do4424682597.js" data-cfg-autoload="false"></script>
+    <script type="text/javascript" src="http://img3.douban.com/js/packed_douban2310601091.js"></script>
+    
+<script type="text/javascript" src="http://img3.douban.com/js/packed_follow9330952028.js"></script>
+    <script type="text/javascript" src="http://img3.douban.com/js/packed_jquery-ui-sortable4704176938.js"></script>
+    <script type="text/javascript" src="http://img3.douban.com/js/packed_mine_dragdrop5347715249.js"></script>
+	    <script type="text/javascript">
+{% for set in sets %}
+function get_one_blog_{{forloop.counter}}(keyword, id, set_count)
+{  
+    var container = $('#blog_container_{{forloop.counter}}');  
+    container.html("<img src=\"/sigirdemo/images/load.gif\" />");  
+    $.get('/sigirdemo/ajax_get_one_blog/',{'key':keyword, 'id':id, 'set_count':set_count}, function(ret) {          
+		container.html(ret);  
+	});  
+} 
+{% endfor %}
+
+</script>
+			{% if sets %}
+			<div class="result">
+			{% for set in sets %}
+				<h3 class="title" onclick="javascript:$(this).next('div').slideToggle('slow');" >{{ set.set_title }}({{set.count}})</h3>
+               	<div class="shop" style="display:none;">
+					<div class="title">
+					<table>
+					<tr>
+						<td class="no">ID</td>
+						<td class="image">Image</td>
+						<td class="ilink">Link</td>
+						<td>Price</td>
+					</tr>
+					</table>
+					</div>
+				{% for item in set.list %}
+					<div class="sort">
+					<table>
+					<tr class="item-{% cycle '0' '1' %}">
+						<td class="no"><h2>{{ forloop.counter }}</h2></td>
+						<td class="image"><a href="/sigirdemo/clicked/?url={{ item.url}}" target="_blank"><img class="img" src="{{ item.image }}" /></a></td>
+						<td class="ilink"><a href="/sigirdemo/clicked/?url={{ item.url }}" target="_blank">{{ item.title }}</a></td>
+						<td>${{item.price}}</td>
+					</tr>
+					</table>
+					</div>
+				{% endfor %}
+					<div class="sort" id="blog_container_{{forloop.counter}}">
+						<a href="javascript:get_one_blog_{{forloop.counter}}('{{key}}', '{{forloop.counter}}', '{{set.count}}')">--more items of this entity--</a>
+					</div>
+				</div>
+			{% endfor %}
+			</div><!-- result -->
+			{% endif %}

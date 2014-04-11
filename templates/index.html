@@ -1,0 +1,182 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>
+			ProductSeeker	
+		</title>
+		<link rel="stylesheet" href="/sigirdemo/css/style.css" type="text/css" />
+		<script type="text/javascript" src="/sigirdemo/js/jquery-1.4.min.js"></script>
+		<script type="text/javascript" src="/sigirdemo/js/jquery.iFadeSldie.pack.js"></script>
+	    <script type="text/javascript" src="/sigirdemo/js/packed_jquery-ui-sortable4704176938.js"></script>
+	    <script type="text/javascript" src="/sigirdemo/js/packed_jquery-ui-sortable4704176938.js"></script>
+        <script type="text/javascript" src="/sigirdemo/js/jquery.js"></script>
+		<script type="text/javascript" src="/sigirdemo/js/jquery.tablednd.0.7.min.js"></script>
+	<script type="text/javascript" src="http://img3.douban.com/js/packed_jquery.min6301986802.js"></script>
+		<!-- <link href="css/douban.css" rel="stylesheet" type="text/css"> -->
+		<link href="/sigirdemo/css/packed_douban6058825193.css" rel="stylesheet" type="text/css">
+	    <script type="text/javascript" src="/sigirdemo/js/packed_jquery.min6301986802.js"></script>
+	    <script type="text/javascript" src="/sigirdemo/js/packed_do4424682597.js" data-cfg-autoload="false"></script>
+		<script type="text/javascript" src="/sigirdemo/js/packed_douban5051788117.js"></script>
+			    
+
+		<script type="text/javascript" src="/sigirdemo/js/packed_follow9330952028.js"></script>
+		<script type="text/javascript" src="/sigirdemo/js/packed_mine_dragdrop5347715249.js"></script>
+		<link rel="stylesheet" href="http://img3.douban.com/misc/mixed_static/64fe2999cc178e55.css">
+		<link rel="shortcut icon" href="/sigirdemo/images/thumbnail2.jpg" type="image/x-icon">
+    <script type="text/javascript" src="http://img3.douban.com/js/packed_do4424682597.js" data-cfg-autoload="false"></script>
+    <script type="text/javascript" src="http://img3.douban.com/js/packed_douban2310601091.js"></script>
+    
+<script type="text/javascript" src="http://img3.douban.com/js/packed_follow9330952028.js"></script>
+    <script type="text/javascript"> mine_page_url="/j/mine/page";</script> 
+    <script type="text/javascript" src="http://img3.douban.com/js/packed_jquery-ui-sortable4704176938.js"></script>
+    <script type="text/javascript" src="http://img3.douban.com/js/packed_mine_dragdrop5347715249.js"></script>
+
+	    <script type="text/javascript">
+$(function(){
+$('div#__slide').iFadeSlide();
+});
+
+
+function change_threshold(threshold)
+{  
+    var container = $('#wait');  
+    container.html("<img src=\"/sigirdemo/images/load.gif\" />");  
+    $.get('/?key='+document.forms[0].key.value+'&threshold='+threshold, function(ret) {          
+		container.html(ret);  
+	});  
+} 
+
+function get_search_result_canon()
+{  
+    var container = $('#wait');  
+    container.html("<img src=\"/sigirdemo/images/load.gif\" />");  
+    $.get('/?key=canon', function(ret) {          
+		container.html(ret);  
+	});
+	var slide_bar = $('#slide_bar');
+	$.get('/slide/', function(ret){
+				slide_bar.html(ret);
+			});
+} 
+function get_search_result_headphone()
+{  
+    var container = $('#wait');  
+    container.html("<img src=\"/sigirdemo/images/load.gif\" />");  
+    $.get('/?key=headphone', function(ret) {          
+		container.html(ret);  
+	});
+	var slide_bar = $('#slide_bar');
+	$.get('/slide/', function(ret){
+				slide_bar.html(ret);
+			});
+} 
+
+function get_search_result()
+{  
+    var container = $('#wait');  
+    container.html("<img src=\"/sigirdemo/images/load.gif\" />");  
+    $.get('/?key='+document.forms[0].key.value, function(ret) {          
+		container.html(ret);  
+	});
+	var slide_bar = $('#slide_bar');
+	$.get('/slide/', function(ret){
+				slide_bar.html(ret);
+			});
+} 
+
+{% for set in sets %}
+function get_one_blog_{{forloop.counter}}(keyword, id, set_count)
+{  
+    var container = $('#blog_container_{{forloop.counter}}');  
+    container.html("<img src=\"/sigirdemo/images/load.gif\" />");  
+    $.get('/ajax_get_one_blog/',{'key':keyword, 'id':id, 'set_count':set_count}, function(ret) {          
+		container.html(ret);  
+	});  
+} 
+{% endfor %}
+
+$(document).ready(function() {
+	// Initialise the first table (as before)
+	$("#table").tableDnD();
+	// Make a nice striped effect on the table
+	$("#table tr:even").addClass("alt");
+	// Initialise the second table specifying a dragClass and an onDrop function that will display an alert
+	$("#table").tableDnD({
+	    onDragClass: "myDragClass",
+	    onDrop: function(table, row) {
+            var rows = table.tBodies[0].rows;
+            var debugStr = "Row dropped was "+row.id+". New order: ";
+            for (var i=0; i<rows.length; i++) {
+                debugStr += rows[i].id+" ";
+            }
+	        $("#debugArea").html(debugStr);
+	    },
+		onDragStart: function(table, row) {
+			$("#debugArea").html("Started dragging row "+row.id);
+		}
+	});
+
+	$('#table').tableDnD({
+	    onDrop: function(table, row) {
+	        alert("Result of $.tableDnD.serialise() is "+$.tableDnD.serialize());
+		    $('#AjaxResult').load("server/ajaxTest.php?"+$.tableDnD.serialize());
+        }
+	});
+
+	$('#table').tableDnD(); // no options currently
+
+    $('#table').tableDnD({
+        onDrop: function(table, row) {
+            alert($('#table').tableDnDSerialize());
+        },
+        dragHandle: ".dragHandle"
+    });
+
+    $("#table tr").hover(function() {
+          $(this.cells[0]).addClass('showDragHandle');
+    }, function() {
+          $(this.cells[0]).removeClass('showDragHandle');
+    });
+});
+</script>
+	</head>
+	
+	<body>
+	<div class="article drop-area ui-sortable">
+	<div id="wrapper">
+		<div id="header">
+		</div><!--header-->
+		
+		<div id="content">
+			<div class="search">
+				<form action="" method="GET" onSubmit="javascript:get_search_result(); return false">
+					<table>
+						<tr>
+							<td class="stao">ProductSeeker</td>
+							<td class="stao"><input type="text" name="key" value=""/></td>
+					<!--		<td class="ntao">SetJaccard</td>                                  -->
+					<!--		<td class="ntao"><input type="text" name="jaccard" value=""/></td>-->
+							<td class="subtao"><input type="image" name="submit" src="/images/start.jpg"></td>
+						</tr>
+					</table>
+				</form>
+			</div>
+			<div id="slide_bar">
+			</div>
+			<div id="wait">
+				<div id="__slide">
+					<a href="javascript:get_search_result_canon()"><img src="/sigirdemo/images/cameras.jpg" title="demo" alt="demo" /></a>
+					<a href="javascript:get_search_result_headphone()"><img src="/sigirdemo/images/headphones.jpg" title="demo" alt="demo" /></a>
+					<div class="__ico"></div>
+				</div>
+			</div>
+		</div><!--content-->
+		
+		<div id="footer">
+			<p class="copyright">Copyright @ 2013  . All rights reserved.</p>
+		</div><!--footer-->
+	</div><!--wrapper-->
+	</div>
+	</body>
+</html>

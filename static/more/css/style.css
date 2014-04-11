@@ -1,0 +1,29 @@
+*{margin:0; padding:0;}
+body{font-size:12px;text-align:center;}
+#wrapper{margin:0 auto;}
+div#header{height:100px; background:#fff url(/images/head.png) repeat-x;}
+#content{width:900px;margin:auto;}
+#footer{width:900px;text-align:center;margin:auto;margin-top:50px;}
+div.search{width:900px;height:70px;margin:auto;margin-top:10px;margin-bottom:10px;}
+div.result{width:900px;margin:auto;margin-top:10px;margin-bottom:10px;}
+div.shop{width:880px;margin:auto;}
+tr,td{padding:5px;}
+.stao, .ntao{font-size:20px;}
+.stao input{width:650px;height:30px;line-height:25px;}
+.ntao input{width:40px;height:25px;line-height:25px;}
+.subtao input{width:50px;height:50px;}
+td.no{width:50px;}
+td.ilink{width:750px;}
+td.ilink_more{width:850px; text-align: right;}
+td.image{width:80px; text-align: center;}
+p.alart{font-size:12px; font-weight:500; color:#7c7c7c;margin:10px auto;}
+p.copyright{font-family:Verdana;font-size:16px; font-weight:500; color:#7c7c7c;margin:10px auto;}
+
+.result{font-size:16px; font-weight:700; text-align:center;}
+a, a:link, a:visited , a:hover{color:#5b5b5b; text-decoration:none;}
+a:hover{color:#ff6000;}
+.item-0{background-color:#cde9ff;text-align:left;}
+.item-1{background-color:#f1f1f1;text-align:left;}
+.H{color: red;}
+.img{height: 60px; width: 60px;}
+h3.title{background-color:#e4e4e4;padding:3px 0;border:#64aada 1px solid;}
