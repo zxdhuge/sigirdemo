@@ -1,6 +1,7 @@
 from get_information import get_item_specifics, get_items_by_keyword
 from math import log
 import os
+import re
 
 #for online use
 def get_structed_items(keyword, pageNumber=1):
@@ -88,8 +89,10 @@ def get_attribute_info_local(structed_items, path = "/home/zxdhuge/django/sigird
 		c = f.read()
 		f.close()
 
+	
+		pattern = re.compile(r'<.*?>')
 		info = eval(c)
-		desc.append(info["Item"]["Description"])
+		desc.append(pattern.sub('', info["Item"]["Description"]).replace('&nbsp;', ' '))
 		try:
 			for attr_value in info["Item"]["ItemSpecifics"]["NameValueList"]:
 				#print attr_value["Name"], attr_value["Value"]
@@ -110,6 +113,16 @@ def get_attribute_info_local(structed_items, path = "/home/zxdhuge/django/sigird
 	
 	return attribute_info, desc, item_cnt
 
+def desc_process(desc):
+	pass
+#	words = {}
+#	i = 0
+#	for one_desc in desc:
+#		tmp = one_desc.lower().split()
+#		for w in tmp:
+#			if words.has_key(w):
+#				words[w]
+
 def main():
 	keywords = 'canon'
 	structed_items = get_structed_items_local()
@@ -119,6 +132,17 @@ def main():
 		print item['title']
 		i+=1
 	print len(desc), item_cnt
+
+
+	pattern = re.compile(r'<.*?>')
+#	print pattern.sub('', desc[0]).replace('&nbsp;', ' ')
+	print desc[1]
+
+	for onedesc in desc:
+		tmp = pattern.sub('', onedesc).replace('&nbsp;', ' ')
+		for i in re.finditer(':', tmp):
+			span = i.span()
+#			print tmp[span[0]-20:span[0]+20]
 #	for attr_name in attribute_info.keys():
 #		for attr_value in attribute_info[attr_name].keys():
 #			print attribute_info[attr_name][attr_value][-1]

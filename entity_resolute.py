@@ -249,7 +249,7 @@ def main():
 	structed_items = get_structed_items_local()
 	#structed_items = remove_nouse_items(structed_items, '/var/www/html/sigirdemo/test_data/')
 
-	attribute_info,item_cnt = get_attribute_info_local(structed_items)
+	attribute_info,desc,item_cnt = get_attribute_info_local(structed_items)
 
 	words = get_words_information(structed_items)
 	

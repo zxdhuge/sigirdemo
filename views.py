@@ -29,7 +29,7 @@ def index(request):
 		path = local_download(keywords, '0')#default: the first page
 
 		structed_items = get_structed_items_local(keywords, 1, path)
-		attribute_info,desc,desc,item_cnt = get_attribute_info_local(structed_items, path)
+		attribute_info,desc,item_cnt = get_attribute_info_local(structed_items, path)
 		words = get_words_information(structed_items)
 		sim_matrix, sim = cal_similarity(attribute_info, item_cnt, structed_items, words)
 
